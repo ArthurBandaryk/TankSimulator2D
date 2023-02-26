@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Find sfml package.
 find_package(
-    SFML 2.5.1
+    SFML
     COMPONENTS graphics system
     REQUIRED
 )

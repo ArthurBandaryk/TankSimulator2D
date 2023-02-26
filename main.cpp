@@ -2,7 +2,11 @@
 #include <iostream>
 
 int main(int /*argc*/, char** /*argv*/) {
-  sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+  constexpr unsigned int kScreenWidth{800}, kScreenHeight{800};
+  sf::RenderWindow window(
+      sf::VideoMode(kScreenWidth, kScreenHeight),
+      "Tank2D");
+
   sf::CircleShape shape(100.f);
   shape.setFillColor(sf::Color::Green);
 
