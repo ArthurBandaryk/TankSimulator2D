@@ -14,7 +14,7 @@ set(TARGET_NAME "game")
 # Find sfml package.
 find_package(
     SFML
-    COMPONENTS graphics system
+    COMPONENTS graphics
     REQUIRED
 )
 
