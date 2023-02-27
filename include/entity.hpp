@@ -1,12 +1,39 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <memory>
+#include <string>
+
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace arci {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-class Entity {};
+class Entity {
+ public:
+  Entity() = default;
+  virtual ~Entity() = default;
+  virtual void update() = 0;
+  sf::Sprite& getSprite();
+
+ protected:
+  std::unique_ptr<sf::Texture> m_texture{nullptr};
+  std::unique_ptr<sf::Sprite> m_sprite{nullptr};
+
+  // Maybe unused??
+  bool m_isMovingObject{false};
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+class Player : public Entity {
+ public:
+  Player();
+  void update() override;
+
+ private:
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 

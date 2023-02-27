@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
 #include "entity.hpp"
+#include <SFML/Graphics.hpp>
+#include <vector>
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -16,14 +16,23 @@ class World {
   void initWorld();
 
  private:
+  // Load all textures.
+  void initGameEntities();
+
   void processInput();
   void update();
   void render();
 
+  // Main window.
   sf::RenderWindow m_window{};
+
+  // Player entity.
+  std::unique_ptr<Player> m_player{nullptr};
+
+  // All entities that can move on the scene.
+  std::vector<Entity*> m_movingEntities{};
+
   bool m_isGameOver{false};
-  // Entity player{};
-  //  std::array<Entity, MAX_ENEMY_SIZE> enemies;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

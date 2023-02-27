@@ -1,4 +1,6 @@
 #include "world.hpp"
+#include "entity.hpp"
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -14,6 +16,15 @@ void World::initWorld() {
       static_cast<int>(desktop.width / 2 - m_window.getSize().x / 2),
       static_cast<int>(desktop.height / 2 - m_window.getSize().y / 2)});
   m_window.setVerticalSyncEnabled(true);
+
+  // Init game entities.
+  initGameEntities();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void World::initGameEntities() {
+  m_player = std::make_unique<Player>();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -51,6 +62,7 @@ void World::update() {
 void World::render() {
   if (!m_isGameOver) {
     m_window.clear();
+    m_window.draw(m_player->getSprite());
     m_window.display();
   }
 }
