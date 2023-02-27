@@ -25,7 +25,7 @@ add_subdirectory(src)
 add_executable(${TARGET_NAME} "src/main.cpp")
 
 # Specify libraries when linking a given target.
-target_link_libraries(${TARGET_NAME} PUBLIC tank sfml-graphics)
+target_link_libraries(${TARGET_NAME} PUBLIC game-components sfml-graphics)
 
 # Set compiler warnings.
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

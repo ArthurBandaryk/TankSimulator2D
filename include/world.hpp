@@ -1,6 +1,8 @@
 #pragma once
 
-#include "world.hpp"
+#include <SFML/Graphics.hpp>
+
+#include "entity.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -8,16 +10,20 @@ namespace arci {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-class Game {
+class World {
  public:
-  Game();
-  Game(const Game&) = delete;
-  Game& operator=(const Game&) = delete;
-
-  void run();
+  void gameLoop();
+  void initWorld();
 
  private:
-  World world{};
+  void processInput();
+  void update();
+  void render();
+
+  sf::RenderWindow m_window{};
+  bool m_isGameOver{false};
+  // Entity player{};
+  //  std::array<Entity, MAX_ENEMY_SIZE> enemies;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

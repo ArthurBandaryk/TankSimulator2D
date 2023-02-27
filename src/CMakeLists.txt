@@ -1,11 +1,13 @@
 # Set target name.
-set(LIB_NAME "tank")
+set(LIB_NAME "game-components")
 
 # Define list of source files.
 list(
     APPEND
     SOURCE_FILES
+    "entity.cpp"
     "game.cpp"
+    "world.cpp"
 )
 
 # Create library.
