@@ -1,0 +1,41 @@
+name: Build
+
+# The strategy is the following: this action will be
+# triggered on any push to 'main' branch and any pull
+# request to any branch. Thus duplicate work-
+# flows will be avoided.
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  build-game:
+    name: Build Tank2D
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      # Checkout the repository under $GITHUB_WORKSPACE.
+      - uses: actions/checkout@v2
+
+      # Check gcc version.
+      - name: Check gcc version
+        run: gcc --version && g++ --version
+
+      # Check cmake version.
+      - name: Check cmake version
+        run: cmake --version
+
+      # Install sfml lib.
+      - name: Install sfml
+        run: sudo apt-get install -y libsfml-dev
+
+      # Build game.
+      - name: Build game
+        run: chmod +x build_game.sh && ./build_game.sh
