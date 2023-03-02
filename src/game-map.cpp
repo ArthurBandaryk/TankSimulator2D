@@ -6,20 +6,19 @@ namespace arci {
 
 //////////////////////////////////////////////////////////////////////////////
 
-Wall::Wall(
+MapEntity::MapEntity(
     const sf::IntRect& subRectOfTexture,
     const sf::IntRect& rectOfRepeatedTexture,
     const sf::Vector2f& screenPosition) {
   setTextureAndSprite(subRectOfTexture, /*texture is repeated*/ true);
   m_sprite->setTextureRect(rectOfRepeatedTexture);
   m_sprite->setPosition(screenPosition);
-  m_sprite->setScale(ms_scale);
 }
 
 //////////////////////////////////////////////////////////////////////////////
 
-void Wall::update() {
-  /*It's a wall, so we don't need to update it's coordinates.*/
+void MapEntity::update() {
+  /* It's a map entity, do nothing for now */
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -8,9 +8,9 @@ namespace arci {
 
 //////////////////////////////////////////////////////////////////////////////
 
-class Wall final : public Entity {
+class MapEntity final : public Entity {
  public:
-  Wall(
+  MapEntity(
       const sf::IntRect& subRectOfTexture,
       const sf::IntRect& rectOfRepeatedTexture,
       const sf::Vector2f& screenPosition);

@@ -17,9 +17,8 @@ class Entity {
   virtual void update() = 0;
   void setTextureAndSprite(const sf::IntRect& rect,
                            /*texture is repeated*/ bool repeated = false);
+  void setScale(const sf::Vector2f& scale);
   sf::Sprite& getSprite();
-
-  inline static sf::Vector2f ms_scale{3.f, 3.f};
 
  protected:
   inline static const std::string ms_texturePath{"resources/components.png"};

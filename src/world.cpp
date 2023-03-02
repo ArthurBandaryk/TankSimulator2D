@@ -23,14 +23,16 @@ void World::initWorld() {
 ///////////////////////////////////////////////////////////////////////////////
 
 void World::initGameEntities() {
-  initPlayer();
+  initBackground();
   initWalls();
+  initPlayer();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void World::initPlayer() {
   m_player = std::make_unique<Player>();
+  m_player->setScale(ms_scale);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -45,10 +47,6 @@ void World::initWalls() {
   const int startWallTextureY{128};
   const int wallTextureWidth{16};
   const int wallTextureHeight{16};
-
-  // Set scale for walls.
-  Wall::ms_scale.x = 2.f;
-  Wall::ms_scale.y = 2.f;
 
   const sf::IntRect wallTexture{
       /*left*/ startWallTextureX,
@@ -73,8 +71,8 @@ void World::initWalls() {
       /*width*/ static_cast<int>(wallTextureWidth),
       /* clang-format off */
       /*height*/ static_cast<int>(
-                  (windowSize.y - 2 * Wall::ms_scale.y * wallTextureHeight) 
-                  / Wall::ms_scale.y
+                (windowSize.y - 2 * ms_scale.y * wallTextureHeight + 2)
+                  / ms_scale.y
                 ),
       /* clang-format on */
   };
@@ -83,35 +81,78 @@ void World::initWalls() {
   // Scale factor (Wall::ms_scale) should not be ignored too.
   const sf::Vector2f leftWallPosition{
       0.f,
-      wallTextureHeight * Wall::ms_scale.y};
+      wallTextureHeight * ms_scale.y};
   const sf::Vector2f topWallPosition{0.f, 0.f};
   const sf::Vector2f rightWallPosition{
-      windowSize.x - wallTextureWidth * Wall::ms_scale.x,
-      wallTextureHeight * Wall::ms_scale.y};
+      windowSize.x - wallTextureWidth * ms_scale.x,
+      wallTextureHeight * ms_scale.y};
   const sf::Vector2f bottomWallPosition{
       0.f,
-      windowSize.y - wallTextureHeight * Wall::ms_scale.y};
+      windowSize.y - wallTextureHeight * ms_scale.y};
+
+  auto leftWall = std::make_unique<MapEntity>(
+      wallTexture,
+      rectOfRepeatedTextureHeight,
+      leftWallPosition);
+
+  auto rightWall = std::make_unique<MapEntity>(
+      wallTexture,
+      rectOfRepeatedTextureHeight,
+      rightWallPosition);
+
+  auto topWall = std::make_unique<MapEntity>(
+      wallTexture,
+      rectOfRepeatedTextureWidth,
+      topWallPosition);
+
+  auto bottomWall = std::make_unique<MapEntity>(
+      wallTexture,
+      rectOfRepeatedTextureWidth,
+      bottomWallPosition);
+
+  leftWall->setScale(ms_scale);
+  topWall->setScale(ms_scale);
+  bottomWall->setScale(ms_scale);
+  rightWall->setScale(ms_scale);
 
   // Add all walls to the vector of all entities.
-  m_entities.emplace_back(std::make_unique<Wall>(
-      wallTexture,
-      rectOfRepeatedTextureWidth,
-      topWallPosition));
+  m_entities.push_back(std::move(topWall));
+  m_entities.push_back(std::move(leftWall));
+  m_entities.push_back(std::move(bottomWall));
+  m_entities.push_back(std::move(rightWall));
+}
 
-  m_entities.emplace_back(std::make_unique<Wall>(
-      wallTexture,
-      rectOfRepeatedTextureHeight,
-      leftWallPosition));
+///////////////////////////////////////////////////////////////////////////////
 
-  m_entities.emplace_back(std::make_unique<Wall>(
-      wallTexture,
-      rectOfRepeatedTextureWidth,
-      bottomWallPosition));
+void World::initBackground() {
+  // Grab start position and the size of `Tank` texture
+  // using 'pixspy' program.
+  // https://pixspy.com/
+  const sf::IntRect backgroundRectangleTexture{
+      /*left*/ 144,
+      /*top*/ 48,
+      /*width*/ 16,
+      /*height*/ 16,
+  };
 
-  m_entities.emplace_back(std::make_unique<Wall>(
-      wallTexture,
-      rectOfRepeatedTextureHeight,
-      rightWallPosition));
+  const auto windowSize = m_window.getSize();
+
+  // Huge rectangle of repeated `background` textures.
+  const sf::IntRect rectOfRepeatedBackgroundTextures{
+      /*left*/ 0,
+      /*top*/ 0,
+      /*width*/ static_cast<int>(windowSize.x),
+      /*height*/ static_cast<int>(windowSize.y),
+  };
+
+  auto backGround = std::make_unique<MapEntity>(
+      backgroundRectangleTexture,
+      rectOfRepeatedBackgroundTextures,
+      sf::Vector2f{0.f, 0.f});
+
+  backGround->setScale(sf::Vector2f{4.f, 4.f});
+
+  m_entities.push_back(std::move(backGround));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -149,10 +190,10 @@ void World::update() {
 void World::render() {
   if (!m_isGameOver) {
     m_window.clear();
-    m_window.draw(m_player->getSprite());
     for (const auto& entity : m_entities) {
       m_window.draw(entity->getSprite());
     }
+    m_window.draw(m_player->getSprite());
     m_window.display();
   }
 }

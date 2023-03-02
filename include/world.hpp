@@ -19,12 +19,15 @@ class World final {
  private:
   // Load all textures.
   void initGameEntities();
+  void initBackground();
   void initPlayer();
   void initWalls();
 
   void processInput();
   void update();
   void render();
+
+  inline static sf::Vector2f ms_scale{2.f, 2.f};
 
   // Main window.
   sf::RenderWindow m_window{};

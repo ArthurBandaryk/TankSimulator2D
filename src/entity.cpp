@@ -30,6 +30,12 @@ void Entity::setTextureAndSprite(const sf::IntRect& rect, bool repeated) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void Entity::setScale(const sf::Vector2f& scale) {
+  m_sprite->setScale(scale);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 sf::Sprite& Entity::getSprite() {
   if (!m_sprite) {
     throw std::logic_error{"Invalid state for sprite"};
@@ -40,7 +46,9 @@ sf::Sprite& Entity::getSprite() {
 ///////////////////////////////////////////////////////////////////////////////
 
 Player::Player() {
-  // Grab player's tank rectangle from the whole texture set.
+  // Grab start position and the size of `Tank` texture
+  // using 'pixspy' program.
+  // https://pixspy.com/
   const sf::IntRect tankRectangle{
       /*left*/ 1,
       /*top*/ 48,
@@ -49,7 +57,6 @@ Player::Player() {
   };
 
   setTextureAndSprite(tankRectangle);
-  m_sprite->setScale(ms_scale);
   m_sprite->setPosition(100.f, 100.f);
   m_sprite->rotate(90.f);
   m_isMovingObject = true;
