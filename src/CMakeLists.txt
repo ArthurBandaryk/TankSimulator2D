@@ -7,6 +7,7 @@ list(
     SOURCE_FILES
     "entity.cpp"
     "game.cpp"
+    "game-map.cpp"
     "world.cpp"
 )
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "entity.hpp"
+#include "game-map.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -10,7 +11,7 @@ namespace arci {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-class World {
+class World final {
  public:
   void gameLoop();
   void initWorld();
@@ -18,6 +19,8 @@ class World {
  private:
   // Load all textures.
   void initGameEntities();
+  void initPlayer();
+  void initWalls();
 
   void processInput();
   void update();
@@ -29,8 +32,8 @@ class World {
   // Player entity.
   std::unique_ptr<Player> m_player{nullptr};
 
-  // All entities that can move on the scene.
-  std::vector<Entity*> m_movingEntities{};
+  // All entities (except player) on the scene.
+  std::vector<std::unique_ptr<Entity>> m_entities{};
 
   bool m_isGameOver{false};
 };
