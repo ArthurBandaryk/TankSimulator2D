@@ -2,6 +2,7 @@
 
 #include "entity.hpp"
 #include "game-map.hpp"
+#include "player.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -24,7 +25,7 @@ class World final {
   void initWalls();
 
   void processInput();
-  void update();
+  void update(float timeElapsed);
   void render();
 
   inline static sf::Vector2f ms_scale{2.f, 2.f};

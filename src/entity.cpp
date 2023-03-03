@@ -1,5 +1,4 @@
 #include "entity.hpp"
-#include <cassert>
 #include <stdexcept>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -41,30 +40,6 @@ sf::Sprite& Entity::getSprite() {
     throw std::logic_error{"Invalid state for sprite"};
   }
   return *m_sprite.get();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-Player::Player() {
-  // Grab start position and the size of `Tank` texture
-  // using 'pixspy' program.
-  // https://pixspy.com/
-  const sf::IntRect tankRectangle{
-      /*left*/ 1,
-      /*top*/ 48,
-      /*width*/ 14,
-      /*height*/ 16,
-  };
-
-  setTextureAndSprite(tankRectangle);
-  m_sprite->setPosition(100.f, 100.f);
-  m_sprite->rotate(90.f);
-  m_isMovingObject = true;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void Player::update() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////

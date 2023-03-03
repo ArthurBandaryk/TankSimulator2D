@@ -8,6 +8,7 @@ list(
     "entity.cpp"
     "game.cpp"
     "game-map.cpp"
+    "player.cpp"
     "world.cpp"
 )
 

@@ -17,7 +17,7 @@ MapEntity::MapEntity(
 
 //////////////////////////////////////////////////////////////////////////////
 
-void MapEntity::update() {
+void MapEntity::update(float timeElapsed) {
   /* It's a map entity, do nothing for now */
 }
 

@@ -1,0 +1,36 @@
+#pragma once
+
+#include "entity.hpp"
+
+///////////////////////////////////////////////////////////////////////////////
+
+namespace arci {
+
+///////////////////////////////////////////////////////////////////////////////
+
+enum class Command {
+  MoveUp,
+  MoveDown,
+  MoveLeft,
+  MoveRight,
+  Fire,
+  DoNothing,
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+class Player final : public Entity {
+ public:
+  Player();
+  void update(float timeElapsed) override;
+  void handleInput(Command command);
+  void move(float timeElapsed);
+  void fire();
+
+ private:
+  Command m_command{Command::DoNothing};
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+} // namespace arci

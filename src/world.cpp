@@ -1,5 +1,6 @@
 #include "world.hpp"
 #include "entity.hpp"
+#include "player.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +33,7 @@ void World::initGameEntities() {
 
 void World::initPlayer() {
   m_player = std::make_unique<Player>();
-  m_player->setScale(ms_scale);
+  // m_player->setScale(sf::Vector2f{3.f, 3.f});
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -158,9 +159,10 @@ void World::initBackground() {
 ///////////////////////////////////////////////////////////////////////////////
 
 void World::gameLoop() {
+  static sf::Clock clock{};
   while (!m_isGameOver) {
     processInput();
-    update();
+    update(clock.restart().asSeconds());
     render();
   }
 }
@@ -176,12 +178,25 @@ void World::processInput() {
       break;
     }
   }
+
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+    m_player->handleInput(Command::Fire);
+  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    m_player->handleInput(Command::MoveUp);
+  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+    m_player->handleInput(Command::MoveLeft);
+  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+    m_player->handleInput(Command::MoveDown);
+  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    m_player->handleInput(Command::MoveRight);
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void World::update() {
-  if (!m_isGameOver) { /*For now do nothing.*/
+void World::update(float timeElapsed) {
+  if (!m_isGameOver) {
+    m_player->update(timeElapsed);
   }
 }
 

@@ -15,7 +15,7 @@ class MapEntity final : public Entity {
       const sf::IntRect& rectOfRepeatedTexture,
       const sf::Vector2f& screenPosition);
 
-  void update() override;
+  void update(float timeElapsed) override;
 };
 
 //////////////////////////////////////////////////////////////////////////////
