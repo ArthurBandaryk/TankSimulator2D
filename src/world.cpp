@@ -1,6 +1,7 @@
 #include "world.hpp"
 #include "entity.hpp"
 #include "player.hpp"
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +34,7 @@ void World::initGameEntities() {
 
 void World::initPlayer() {
   m_player = std::make_unique<Player>();
-  // m_player->setScale(sf::Vector2f{3.f, 3.f});
+  m_player->setScale(sf::Vector2f{3.f, 3.f});
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -181,13 +182,18 @@ void World::processInput() {
 
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
     m_player->handleInput(Command::Fire);
-  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+  }
+
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
     m_player->handleInput(Command::MoveUp);
-  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+  }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
     m_player->handleInput(Command::MoveLeft);
-  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+  }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
     m_player->handleInput(Command::MoveDown);
-  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+  }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
     m_player->handleInput(Command::MoveRight);
   }
 }
@@ -206,9 +212,9 @@ void World::render() {
   if (!m_isGameOver) {
     m_window.clear();
     for (const auto& entity : m_entities) {
-      m_window.draw(entity->getSprite());
+      entity->render(m_window);
     }
-    m_window.draw(m_player->getSprite());
+    m_player->render(m_window);
     m_window.display();
   }
 }

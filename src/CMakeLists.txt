@@ -5,6 +5,7 @@ set(LIB_NAME "game-components")
 list(
     APPEND
     SOURCE_FILES
+    "bullet.cpp"
     "entity.cpp"
     "game.cpp"
     "game-map.cpp"

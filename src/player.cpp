@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -26,11 +27,12 @@ Player::Player() {
   m_sprite->setRotation(0);
   m_isMovingObject = true;
   m_speed = 100.f;
+  m_bullets.reserve(20);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void Player::handleInput(Command command) {
+void Player::handleInput(Command command) noexcept {
   m_command = command;
 }
 
@@ -39,6 +41,9 @@ void Player::handleInput(Command command) {
 void Player::update(float timeElapsed) {
   if (m_command != Command::DoNothing) {
     switch (m_command) {
+      case Command::Fire:
+        fire();
+        break;
       case Command::MoveUp:
         move(timeElapsed);
         break;
@@ -51,11 +56,26 @@ void Player::update(float timeElapsed) {
       case Command::MoveRight:
         move(timeElapsed);
         break;
-      case Command::Fire:
-        fire();
-        break;
       default:
         throw std::logic_error{"Unknown command for player"};
+    }
+  }
+
+  for (auto& bullet : m_bullets) {
+    if (bullet.isDrawable()) {
+      bullet.update(timeElapsed);
+    }
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Player::render(sf::RenderWindow& window) {
+  window.draw(*m_sprite);
+
+  for (auto& bullet : m_bullets) {
+    if (bullet.isDrawable()) {
+      bullet.render(window);
     }
   }
 }
@@ -89,7 +109,23 @@ void Player::move(float timeElapsed) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void Player::fire() {}
+void Player::fire() {
+  static sf::Clock clock;
+  m_timeElapsedAfterShoot += clock.restart().asSeconds();
+  if (m_timeElapsedAfterShoot < chargeTime)
+    return;
+  m_timeElapsedAfterShoot = 0.f;
+  m_bullets.push_back(Bullet{
+      m_sprite->getGlobalBounds(),
+      static_cast<int>(m_sprite->getRotation())});
+
+  m_command = Command::DoNothing;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Player::renderBullet() {
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 

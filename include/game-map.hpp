@@ -16,6 +16,7 @@ class MapEntity final : public Entity {
       const sf::Vector2f& screenPosition);
 
   void update(float timeElapsed) override;
+  void render(sf::RenderWindow& window) override;
 };
 
 //////////////////////////////////////////////////////////////////////////////
