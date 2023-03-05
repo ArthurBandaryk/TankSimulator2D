@@ -181,27 +181,11 @@ void World::processInput() {
       case sf::Event::KeyReleased:
         m_player->readReleasedKey(event.key.code);
         break;
-    }
-  }
 
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-    m_window.close();
-    m_isGameOver = true;
-  }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-    m_player->readPressedKey(sf::Keyboard::Space);
-  }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-    m_player->readPressedKey(sf::Keyboard::W);
-  }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-    m_player->readPressedKey(sf::Keyboard::A);
-  }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-    m_player->readPressedKey(sf::Keyboard::S);
-  }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-    m_player->readPressedKey(sf::Keyboard::D);
+      case sf::Event::KeyPressed:
+        m_player->readPressedKey(event.key.code);
+        break;
+    }
   }
 }
 
