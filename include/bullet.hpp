@@ -17,11 +17,11 @@ class Bullet final : public Entity {
   void render(sf::RenderWindow& window) override;
   void setDirection(int angle) noexcept;
   void setStartPosition(const sf::Vector2f& startPosition) noexcept;
-  bool isDrawable() const noexcept;
+  bool isVisible() const noexcept;
 
  private:
   int m_directionAngle{};
-  bool m_spriteIsVisible{true};
+  bool m_isVisible{true};
 };
 
 ///////////////////////////////////////////////////////////////////////////////

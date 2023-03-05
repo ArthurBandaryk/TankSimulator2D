@@ -1,0 +1,36 @@
+#pragma once
+
+#include <SFML/Graphics.hpp>
+#include <string_view>
+#include <array>
+#include <optional>
+
+///////////////////////////////////////////////////////////////////////////////
+
+namespace arci {
+
+///////////////////////////////////////////////////////////////////////////////
+
+struct Key {
+  sf::Keyboard::Key code{sf::Keyboard::Unknown};
+  std::string_view name{};
+  bool isPressed{false};
+  bool isReleased{true};
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+struct KeysHandler {
+  KeysHandler();
+  void pressKey(const sf::Keyboard::Key code);
+  void releaseKey(const sf::Keyboard::Key code);
+  std::optional<std::size_t> getIndexForKey(const sf::Keyboard::Key code);
+
+  std::array<Key, 5> keys{};
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+} // namespace arci
+
+///////////////////////////////////////////////////////////////////////////////

@@ -9,6 +9,7 @@ list(
     "entity.cpp"
     "game.cpp"
     "game-map.cpp"
+    "input-handler.cpp"
     "player.cpp"
     "world.cpp"
 )

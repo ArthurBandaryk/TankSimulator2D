@@ -21,9 +21,6 @@ Bullet::Bullet(
   };
 
   setTextureAndSprite(bulletRectangle);
-  //   m_sprite->setOrigin(
-  //       m_sprite->getLocalBounds().height / 2,
-  //       m_sprite->getLocalBounds().width / 2);
   m_sprite->setScale(3.f, 3.f);
   m_isMovingObject = true;
   m_speed = 300.f;
@@ -78,8 +75,8 @@ Bullet::Bullet(
 
 ///////////////////////////////////////////////////////////////////////////////
 
-bool Bullet::isDrawable() const noexcept {
-  return m_spriteIsVisible;
+bool Bullet::isVisible() const noexcept {
+  return m_isVisible;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -103,15 +100,12 @@ void Bullet::update(float timeElapsed) {
       m_sprite->move(0.f, -m_speed * timeElapsed);
       break;
     case 90:
-      m_sprite->setRotation(90);
       m_sprite->move(m_speed * timeElapsed, 0.f);
       break;
     case 180:
-      m_sprite->setRotation(180);
       m_sprite->move(0.f, m_speed * timeElapsed);
       break;
     case 270:
-      m_sprite->setRotation(270);
       m_sprite->move(-m_speed * timeElapsed, 0.f);
       break;
     case 360:

@@ -1,7 +1,6 @@
 #include "world.hpp"
 #include "entity.hpp"
 #include "player.hpp"
-#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -173,28 +172,36 @@ void World::gameLoop() {
 void World::processInput() {
   sf::Event event{};
   while (m_window.pollEvent(event)) {
-    if (event.type == sf::Event::Closed) {
-      m_window.close();
-      m_isGameOver = true;
-      break;
+    switch (event.type) {
+      case sf::Event::Closed:
+        m_window.close();
+        m_isGameOver = true;
+        break;
+
+      case sf::Event::KeyReleased:
+        m_player->readReleasedKey(event.key.code);
+        break;
     }
   }
 
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-    m_player->handleInput(Command::Fire);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+    m_window.close();
+    m_isGameOver = true;
   }
-
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+    m_player->readPressedKey(sf::Keyboard::Space);
+  }
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-    m_player->handleInput(Command::MoveUp);
+    m_player->readPressedKey(sf::Keyboard::W);
   }
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-    m_player->handleInput(Command::MoveLeft);
+    m_player->readPressedKey(sf::Keyboard::A);
   }
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-    m_player->handleInput(Command::MoveDown);
+    m_player->readPressedKey(sf::Keyboard::S);
   }
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-    m_player->handleInput(Command::MoveRight);
+    m_player->readPressedKey(sf::Keyboard::D);
   }
 }
 

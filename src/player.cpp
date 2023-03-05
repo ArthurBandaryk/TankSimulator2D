@@ -1,5 +1,5 @@
 #include "player.hpp"
-#include <iostream>
+#include <algorithm>
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -32,40 +32,67 @@ Player::Player() {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void Player::handleInput(Command command) noexcept {
-  m_command = command;
+void Player::readPressedKey(const sf::Keyboard::Key code) {
+  m_handler.pressKey(code);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Player::readReleasedKey(const sf::Keyboard::Key code) {
+  m_handler.releaseKey(code);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void Player::update(float timeElapsed) {
-  if (m_command != Command::DoNothing) {
-    switch (m_command) {
-      case Command::Fire:
-        fire();
-        break;
-      case Command::MoveUp:
-        move(timeElapsed);
-        break;
-      case Command::MoveDown:
-        move(timeElapsed);
-        break;
-      case Command::MoveLeft:
-        move(timeElapsed);
-        break;
-      case Command::MoveRight:
-        move(timeElapsed);
-        break;
-      default:
-        throw std::logic_error{"Unknown command for player"};
+  for (const auto& key : m_handler.keys) {
+    if (key.isPressed) {
+      switch (key.code) {
+        case sf::Keyboard::Space:
+          fire();
+          break;
+        case sf::Keyboard::W:
+          // move(timeElapsed);
+          m_sprite->setRotation(360);
+          m_sprite->move(0.f, -m_speed * timeElapsed);
+          break;
+        case sf::Keyboard::S:
+          // move(timeElapsed);
+          m_sprite->setRotation(180);
+          m_sprite->move(0.f, m_speed * timeElapsed);
+          break;
+        case sf::Keyboard::A:
+          // move(timeElapsed);
+          m_sprite->setRotation(270);
+          m_sprite->move(-m_speed * timeElapsed, 0.f);
+          break;
+        case sf::Keyboard::D:
+          // move(timeElapsed);
+          m_sprite->setRotation(90);
+          m_sprite->move(m_speed * timeElapsed, 0.f);
+          break;
+      }
     }
   }
 
-  for (auto& bullet : m_bullets) {
-    if (bullet.isDrawable()) {
-      bullet.update(timeElapsed);
-    }
-  }
+  std::for_each(
+      m_bullets.begin(),
+      m_bullets.end(),
+      [timeElapsed](Bullet& bullet) {
+        if (bullet.isVisible()) {
+          bullet.update(timeElapsed);
+        }
+      });
+
+  // Remove all non relevant bullets.
+  m_bullets.erase(
+      std::remove_if(
+          m_bullets.begin(),
+          m_bullets.end(),
+          [](const auto& bullet) {
+            return !bullet.isVisible();
+          }),
+      m_bullets.end());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,37 +101,10 @@ void Player::render(sf::RenderWindow& window) {
   window.draw(*m_sprite);
 
   for (auto& bullet : m_bullets) {
-    if (bullet.isDrawable()) {
+    if (bullet.isVisible()) {
       bullet.render(window);
     }
   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void Player::move(float timeElapsed) {
-  switch (m_command) {
-    case Command::MoveDown:
-      m_sprite->setRotation(180);
-      m_sprite->move(0.f, m_speed * timeElapsed);
-      break;
-    case Command::MoveUp:
-      m_sprite->setRotation(360);
-      m_sprite->move(0.f, -m_speed * timeElapsed);
-      break;
-    case Command::MoveLeft:
-      m_sprite->setRotation(270);
-      m_sprite->move(-m_speed * timeElapsed, 0.f);
-      break;
-    case Command::MoveRight:
-      m_sprite->setRotation(90);
-      m_sprite->move(m_speed * timeElapsed, 0.f);
-      break;
-    default:
-      throw std::logic_error{"Incorrect move command"};
-  }
-
-  m_command = Command::DoNothing;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -118,13 +118,6 @@ void Player::fire() {
   m_bullets.push_back(Bullet{
       m_sprite->getGlobalBounds(),
       static_cast<int>(m_sprite->getRotation())});
-
-  m_command = Command::DoNothing;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void Player::renderBullet() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
