@@ -26,7 +26,7 @@ Player::Player() {
   m_sprite->setScale(3.f, 3.f);
   m_sprite->setRotation(0);
   m_isMovingObject = true;
-  m_speed = 100.f;
+  m_speed = 150.f;
   m_bullets.reserve(20);
 }
 
@@ -112,7 +112,7 @@ void Player::render(sf::RenderWindow& window) {
 void Player::fire() {
   static sf::Clock clock;
   m_timeElapsedAfterShoot += clock.restart().asSeconds();
-  if (m_timeElapsedAfterShoot < chargeTime)
+  if (m_timeElapsedAfterShoot < m_chargeTime)
     return;
   m_timeElapsedAfterShoot = 0.f;
   m_bullets.push_back(Bullet{
