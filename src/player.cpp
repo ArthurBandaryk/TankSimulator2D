@@ -52,22 +52,18 @@ void Player::update(float timeElapsed) {
           fire();
           break;
         case sf::Keyboard::W:
-          // move(timeElapsed);
           m_sprite->setRotation(360);
           m_sprite->move(0.f, -m_speed * timeElapsed);
           break;
         case sf::Keyboard::S:
-          // move(timeElapsed);
           m_sprite->setRotation(180);
           m_sprite->move(0.f, m_speed * timeElapsed);
           break;
         case sf::Keyboard::A:
-          // move(timeElapsed);
           m_sprite->setRotation(270);
           m_sprite->move(-m_speed * timeElapsed, 0.f);
           break;
         case sf::Keyboard::D:
-          // move(timeElapsed);
           m_sprite->setRotation(90);
           m_sprite->move(m_speed * timeElapsed, 0.f);
           break;
