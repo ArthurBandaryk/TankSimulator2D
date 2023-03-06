@@ -24,7 +24,6 @@ class Player final : public Entity {
   std::vector<Bullet> m_bullets{};
   KeysHandler m_handler{};
   float m_chargeTime{0.5f};
-  float m_timeElapsedAfterShoot{2.f};
 };
 
 ///////////////////////////////////////////////////////////////////////////////

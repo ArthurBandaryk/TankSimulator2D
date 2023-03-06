@@ -110,11 +110,17 @@ void Player::render(sf::RenderWindow& window) {
 ///////////////////////////////////////////////////////////////////////////////
 
 void Player::fire() {
-  static sf::Clock clock;
-  m_timeElapsedAfterShoot += clock.restart().asSeconds();
-  if (m_timeElapsedAfterShoot < m_chargeTime)
+  // Create clock which will measure time elapsed after any shoot.
+  // Therefore user should wait in order to make the next shoot.
+  static sf::Clock fireClock;
+  static float timeElapsedAfterShoot = m_chargeTime * 2;
+
+  timeElapsedAfterShoot += fireClock.restart().asSeconds();
+
+  // Oops, too early to make shoot.
+  if (timeElapsedAfterShoot < m_chargeTime)
     return;
-  m_timeElapsedAfterShoot = 0.f;
+  timeElapsedAfterShoot = 0.f;
   m_bullets.push_back(Bullet{
       m_sprite->getGlobalBounds(),
       static_cast<int>(m_sprite->getRotation())});
