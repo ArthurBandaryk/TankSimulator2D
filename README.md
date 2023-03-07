@@ -4,6 +4,16 @@
 
 This repo contains a game prototype of 2D tank which is going to be checked as a test task for "C++ game developer course".
 
+## Keypad management
+
+```
+w - move up
+a - move left
+s - move down
+d - move right
+space - shooting
+```
+
 ## Building project
 
 In order to build this project just go to the `root` of this workspace and run:
