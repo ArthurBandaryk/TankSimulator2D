@@ -114,6 +114,9 @@ void Bullet::update(float timeElapsed) {
     default:
       throw std::logic_error{"Incorrect bullet direction"};
   }
+
+  // TODO(artur): make bullet invisible and delete it from vector
+  // if it's gone from the screen bounds or any collision happened.
 }
 
 //////////////////////////////////////////////////////////////////////////////
